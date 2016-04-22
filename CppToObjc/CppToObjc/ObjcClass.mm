@@ -58,7 +58,13 @@ public:
         m_p_cppClass = new CppClass(impl);
         
         callback = ^(HttpResponse resp) {
-            NSLog([NSString stringWithCString:resp.data.c_str() encoding:[NSString defaultCStringEncoding]]);
+
+            if (resp.error) {
+                NSLog([NSString stringWithFormat:@"http request failed with status code: %d", resp.http_code]);
+            }
+            else {
+                NSLog([NSString stringWithCString:resp.data.c_str() encoding:[NSString defaultCStringEncoding]]);
+            }
         };
     }
 
